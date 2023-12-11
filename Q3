@@ -1,0 +1,98 @@
+import pandas as pd
+import numpy as np
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# a. Create a data frame with 3 columns and 50 rows with random numeric data
+data = np.random.rand(50, 3)
+columns = ['Column1', 'Column2', 'Column3']
+df = pd.DataFrame(data, columns=columns)
+
+# Replace 10% of the values with null values
+null_positions = np.random.choice(df.size, size=int(0.1 * df.size), replace=False)
+df.values.flat[null_positions] = np.nan
+
+# Display the data frame
+print("Original DataFrame:\n", df)
+
+# b. Identify and count missing values in the data frame
+missing_values_count = df.isnull().sum()
+print("\nMissing Values Count:\n", missing_values_count)
+
+# Drop columns with more than 5 null values
+df_dropped_columns = df.dropna(axis=1, thresh=len(df) - 5)
+print("\nDataFrame after dropping columns with more than 5 null values:\n", df_dropped_columns)
+
+# c. Identify the row label having the maximum sum of all values in a row and drop that row
+row_label_max_sum = df.sum(axis=1).idxmax()
+df_dropped_max_sum_row = df.drop(index=row_label_max_sum)
+print("\nDataFrame after dropping row with maximum sum of values:\n", df_dropped_max_sum_row)
+
+# d. Sort the data frame based on the first column
+df_sorted = df.sort_values(by='Column1')
+print("\nDataFrame sorted on the basis of the first column:\n", df_sorted)
+
+# e. Remove duplicates from the first column
+df_no_duplicates = df.drop_duplicates(subset='Column1')
+print("\nDataFrame after removing duplicates from the first column:\n", df_no_duplicates)
+
+# f. Find the correlation between the first and second columns and covariance between the second and third columns
+correlation_col1_col2 = df['Column1'].corr(df['Column2'])
+covariance_col2_col3 = df['Column2'].cov(df['Column3'])
+
+print("\nCorrelation between Column1 and Column2:", correlation_col1_col2)
+print("Covariance between Column2 and Column3:", covariance_col2_col3)
+
+# g. Discretize the second column and create 5 bins
+df['Column2_bins'] = pd.cut(df['Column2'], bins=5)
+print("\nDataFrame after discretizing the second column into 5 bins:\n", df)
+import pandas as pd
+import numpy as np
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# a. Create a data frame with 3 columns and 50 rows with random numeric data
+data = np.random.rand(50, 3)
+columns = ['Column1', 'Column2', 'Column3']
+df = pd.DataFrame(data, columns=columns)
+
+# Replace 10% of the values with null values
+null_positions = np.random.choice(df.size, size=int(0.1 * df.size), replace=False)
+df.values.flat[null_positions] = np.nan
+
+# Display the data frame
+print("Original DataFrame:\n", df)
+
+# b. Identify and count missing values in the data frame
+missing_values_count = df.isnull().sum()
+print("\nMissing Values Count:\n", missing_values_count)
+
+# Drop columns with more than 5 null values
+df_dropped_columns = df.dropna(axis=1, thresh=len(df) - 5)
+print("\nDataFrame after dropping columns with more than 5 null values:\n", df_dropped_columns)
+
+# c. Identify the row label having the maximum sum of all values in a row and drop that row
+row_label_max_sum = df.sum(axis=1).idxmax()
+df_dropped_max_sum_row = df.drop(index=row_label_max_sum)
+print("\nDataFrame after dropping row with maximum sum of values:\n", df_dropped_max_sum_row)
+
+# d. Sort the data frame based on the first column
+df_sorted = df.sort_values(by='Column1')
+print("\nDataFrame sorted on the basis of the first column:\n", df_sorted)
+
+# e. Remove duplicates from the first column
+df_no_duplicates = df.drop_duplicates(subset='Column1')
+print("\nDataFrame after removing duplicates from the first column:\n", df_no_duplicates)
+
+# f. Find the correlation between the first and second columns and covariance between the second and third columns
+correlation_col1_col2 = df['Column1'].corr(df['Column2'])
+covariance_col2_col3 = df['Column2'].cov(df['Column3'])
+
+print("\nCorrelation between Column1 and Column2:", correlation_col1_col2)
+print("Covariance between Column2 and Column3:", covariance_col2_col3)
+
+# g. Discretize the second column and create 5 bins
+df['Column2_bins'] = pd.cut(df['Column2'], bins=5)
+print("\nDataFrame after discretizing the second column into 5 bins:\n", df)

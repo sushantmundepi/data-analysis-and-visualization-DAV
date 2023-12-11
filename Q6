@@ -1,0 +1,61 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load Titanic dataset
+url = "https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/stuff/titanic.csv"
+titanic = pd.read_csv(url)
+
+# a. Clean the data by dropping the column which has the largest number of missing values
+titanic_cleaned = titanic.dropna(axis=1, thresh=len(titanic) - 100)
+
+# Display information about missing values after cleaning
+print("a. Information about missing values after cleaning:")
+print(titanic_cleaned.info())
+
+# b. Find total number of passengers with age more than 30
+passengers_over_30 = titanic_cleaned[titanic_cleaned['Age'] > 30].shape[0]
+print("\nb. Total number of passengers with age more than 30:", passengers_over_30)
+
+# c. Find total fare paid by passengers of second class
+total_fare_second_class = titanic_cleaned[titanic_cleaned['Pclass'] == 2]['Fare'].sum()
+print("\nc. Total fare paid by passengers of second class:", total_fare_second_class)
+
+# d. Compare the number of survivors of each passenger class
+survivors_by_class = titanic_cleaned.groupby('Pclass')['Survived'].sum()
+print("\nd. Number of survivors by passenger class:")
+print(survivors_by_class)
+
+# e. Compute descriptive statistics for age attribute gender-wise
+age_stats_genderwise = titanic_cleaned.groupby('Sex')['Age'].describe()
+print("\ne. Descriptive statistics for age attribute gender-wise:")
+print(age_stats_genderwise)
+
+# f. Draw a scatter plot for passenger fare paid by Female and Male passengers separately
+sns.scatterplot(x='Fare', y='Sex', data=titanic_cleaned)
+plt.title('Scatter Plot: Passenger Fare Paid by Female and Male Passengers')
+plt.show()
+
+# g. Compare density distribution for features age and passenger fare
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+sns.kdeplot(titanic_cleaned['Age'], shade=True)
+plt.title('Density Distribution for Age')
+
+plt.subplot(1, 2, 2)
+sns.kdeplot(titanic_cleaned['Fare'], shade=True)
+plt.title('Density Distribution for Passenger Fare')
+plt.show()
+
+# h. Draw the pie chart for three groups labeled as class 1, class 2, class 3 respectively
+# Displayed in different colors. The occurrence of each group converted into percentage should be displayed in the pie chart.
+class_counts = titanic_cleaned['Pclass'].value_counts()
+plt.figure(figsize=(8, 8))
+plt.pie(class_counts, labels=class_counts.index, autopct='%1.1f%%', colors=['lightblue', 'lightgreen', 'lightcoral'])
+plt.title('Pie Chart: Passenger Class Distribution')
+plt.show()
+
+# i. Find % of survived passengers for each class and answer the question “Did class play a role in survival?”
+survival_percentage_by_class = (titanic_cleaned.groupby('Pclass')['Survived'].sum() / titanic_cleaned.groupby('Pclass')['Survived'].count()) * 100
+print("\ni. Percentage of survived passengers for each class:")
+print(survival_percentage_by_class)

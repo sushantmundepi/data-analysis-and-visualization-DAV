@@ -1,0 +1,31 @@
+import pandas as pd
+
+# Assuming you have two Excel files named 'workshop1.xlsx' and 'workshop2.xlsx'
+# with columns 'Name', 'Date', and 'Duration'
+
+# Step 1: Import data into two data frames
+df_workshop1 = pd.read_excel('workshop1.xlsx')
+df_workshop2 = pd.read_excel('workshop2.xlsx')
+
+# a. Perform merging of the two data frames to find the names of students who attended both workshops
+merged_both_workshops = pd.merge(df_workshop1, df_workshop2, on=['Name', 'Date', 'Duration'], how='inner')
+names_both_workshops = merged_both_workshops['Name'].unique()
+
+# b. Find names of all students who have attended a single workshop only
+single_workshop_names = pd.concat([df_workshop1, df_workshop2]).loc[~pd.concat([df_workshop1, df_workshop2]).duplicated('Name', keep=False)]['Name'].unique()
+
+# c. Merge two data frames row-wise and find the total number of records in the data frame
+merged_row_wise = pd.concat([df_workshop1, df_workshop2], ignore_index=True)
+total_records_row_wise = len(merged_row_wise)
+
+# d. Merge two data frames row-wise and use two columns as multi-row indexes
+merged_row_wise_indexed = pd.concat([df_workshop1, df_workshop2], keys=['Workshop1', 'Workshop2'])
+
+# Generate descriptive statistics for the hierarchical data frame
+statistics = merged_row_wise_indexed.groupby(['Name', 'Date', 'Duration']).describe()
+
+# Print the results
+print("a. Names of students who attended both workshops:\n", names_both_workshops)
+print("\nb. Names of students who attended a single workshop only:\n", single_workshop_names)
+print("\nc. Total number of records after merging row-wise:\n", total_records_row_wise)
+print("\nd. Descriptive statistics for the hierarchical data frame:\n", statistics)

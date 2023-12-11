@@ -1,0 +1,90 @@
+import numpy as np
+
+# a. Create a two-dimensional array, ARR1 with random values from 0 to 1
+ARR1 = np.random.rand(3, 5)
+print("ARR1:\n", ARR1)
+
+# Compute mean, standard deviation, and variance along the second axis
+mean_arr1 = np.mean(ARR1, axis=1)
+std_arr1 = np.std(ARR1, axis=1)
+var_arr1 = np.var(ARR1, axis=1)
+
+print("\nMean along second axis:", mean_arr1)
+print("Standard Deviation along second axis:", std_arr1)
+print("Variance along second axis:", var_arr1)
+
+# b. Create a 2-dimensional array with user inputs for m and n
+m = int(input("Enter the number of rows (m): "))
+n = int(input("Enter the number of columns (n): "))
+ARR2 = np.random.randint(0, 10, size=(m, n))
+
+# Print shape, type, and data type of ARR2
+print("\nARR2:\n", ARR2)
+print("Shape of ARR2:", ARR2.shape)
+print("Type of ARR2:", type(ARR2))
+print("Data type of ARR2:", ARR2.dtype)
+
+# Reshape ARR2 into an n x m array
+ARR2_reshaped = ARR2.reshape((n, m))
+print("\nARR2 Reshaped:\n", ARR2_reshaped)
+
+# c. Test whether elements of a given 1D array are zero, non-zero, and NaN
+ARR3 = np.array([1.0, 0.0, 3.5, np.nan, 2.0])
+is_zero = ARR3 == 0
+is_non_zero = ARR3 != 0
+is_nan = np.isnan(ARR3)
+
+zero_indices = np.where(is_zero)[0]
+non_zero_indices = np.where(is_non_zero)[0]
+nan_indices = np.where(is_nan)[0]
+
+print("\nZero Indices:", zero_indices)
+print("Non-zero Indices:", non_zero_indices)
+print("NaN Indices:", nan_indices)
+
+# d. Create three random arrays and perform operations
+Array1 = np.random.rand(3, 3)
+Array2 = np.random.rand(3, 3)
+Array3 = np.random.rand(3, 3)
+
+Array4 = Array3 - Array2
+Array5 = 2 * Array1
+
+covariance = np.cov(Array1.flatten(), Array4.flatten())[0, 1]
+correlation = np.corrcoef(Array1.flatten(), Array5.flatten())[0, 1]
+
+print("\nArray4:\n", Array4)
+print("Array5:\n", Array5)
+print("Covariance between Array1 and Array4:", covariance)
+print("Correlation between Array1 and Array5:", correlation)
+
+# e. Create two random arrays and find sum and product
+Array1_e = np.random.rand(10)
+Array2_e = np.random.rand(10)
+
+sum_first_half = np.sum(Array1_e[:5]) + np.sum(Array2_e[:5])
+product_second_half = np.product(Array1_e[5:]) * np.product(Array2_e[5:])
+
+print("\nSum of the first half of both arrays:", sum_first_half)
+print("Product of the second half of both arrays:", product_second_half)
+
+# f. Create an array with random values and determine memory size
+Array6 = np.random.rand(4, 4)
+memory_size = Array6.nbytes
+
+print("\nArray6:\n", Array6)
+print("Memory size of Array6:", memory_size, "bytes")
+
+# g. Create a 2-dimensional array with integer elements in the range (10, 100)
+m_g = 4
+n_g = 3
+ARR7 = np.random.randint(10, 100, size=(m_g, n_g))
+print("\nARR7:\n", ARR7)
+
+# Swap two rows
+ARR7[[1, 2]] = ARR7[[2, 1]]
+
+# Reverse a specified column (e.g., column 1)
+ARR7[:, 1] = ARR7[::-1, 1]
+
+print("\nUpdated ARR7:\n", ARR7)

@@ -1,0 +1,73 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from scipy import stats
+
+# a. Load data into pandas’ data frame
+iris = load_iris()
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+df['target'] = iris.target
+
+# Display info on data types
+print("a. Info on Data Types:")
+print(df.info())
+
+# b. Find the number of missing values in each column
+missing_values = df.isnull().sum()
+print("\nb. Number of Missing Values in Each Column:")
+print(missing_values)
+
+# c. Plot bar chart to show the frequency of each class label in the data
+sns.countplot(x='target', data=df)
+plt.xlabel('Class Label')
+plt.ylabel('Frequency')
+plt.title('Frequency of Each Class Label in the Iris Dataset')
+plt.show()
+
+# d. Draw a scatter plot for Petal Length vs Sepal Length and fit a regression line
+sns.regplot(x='sepal length (cm)', y='petal length (cm)', data=df)
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Petal Length (cm)')
+plt.title('Scatter Plot: Petal Length vs Sepal Length with Regression Line')
+plt.show()
+
+# e. Plot density distribution for feature Petal width
+sns.kdeplot(df['petal width (cm)'], shade=True)
+plt.xlabel('Petal Width (cm)')
+plt.ylabel('Density')
+plt.title('Density Distribution for Petal Width')
+plt.show()
+
+# f. Use a pair plot to show pairwise bivariate distribution in the Iris Dataset
+sns.pairplot(df, hue='target', markers=["o", "s", "D"])
+plt.suptitle('Pairwise Bivariate Distribution in the Iris Dataset')
+plt.show()
+
+# g. Draw heatmap for any two numeric attributes
+numeric_attributes = ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
+numeric_corr = df[numeric_attributes].corr()
+sns.heatmap(numeric_corr, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Heatmap for Numeric Attributes')
+plt.show()
+
+# h. Compute statistics for each numeric feature
+numeric_stats = df[numeric_attributes].describe()
+mode_values = df[numeric_attributes].mode().iloc[0]
+confidence_interval = stats.norm.interval(0.95, numeric_stats.loc['mean'], numeric_stats.loc['std'] / (df.shape[0] ** 0.5))
+standard_error = stats.sem(df[numeric_attributes], ddof=1)
+
+print("\nh. Statistics for Each Numeric Feature:")
+print(numeric_stats)
+print("\nMode Values:")
+print(mode_values)
+print("\nConfidence Interval (95%):")
+print(confidence_interval)
+print("\nStandard Error:")
+print(standard_error)
+
+# i. Compute correlation coefficients between each pair of features and plot heatmap
+feature_corr = df.corr()
+sns.heatmap(feature_corr, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Coefficients Between Features')
+plt.show()
